@@ -13,7 +13,8 @@ STYLE = GNU
 SRC = src
 INCL = include
 SRC_FILES = $(SRC)/main.cpp
-INCL_FILES =
+INCL_FILES = $(INCL)/bitmap/bmp_image.hpp \
+	     $(INCL)/bitmap/bmp_header.hpp
 OBJ_FILES = $(SRC)/main.o
 
 LIBS =

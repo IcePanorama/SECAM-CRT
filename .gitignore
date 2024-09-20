@@ -2,6 +2,8 @@
 *.bmp
 main
 !main.cpp
+*.json
+.cache/*
 
 # Prerequisites
 *.d
