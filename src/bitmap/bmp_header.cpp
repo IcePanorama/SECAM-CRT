@@ -2,6 +2,8 @@
 #include "utils.hpp"
 
 #include <format>
+#include <ios>
+#include <iostream>
 #include <stdexcept>
 
 static constexpr size_t COLOR_SPACE_TYPE_LEN = 4;
@@ -24,7 +26,7 @@ BitmapV5Header::BitmapV5Header (std::ifstream &fptr)
       if (this->compression_method != UNCOMPRESSED_COMPRESSION_METHOD)
         throw std::runtime_error (
             std::format ("BitmapV5Header constructor failed: Unable to handle "
-                         "{:04X} compression method.",
+                         "{:08X} compression method.",
                          this->compression_method));
 
       this->img_size = read_le_uint32_from_file (fptr);
@@ -39,8 +41,8 @@ BitmapV5Header::BitmapV5Header (std::ifstream &fptr)
       this->num_important_colors = read_le_uint32_from_file (fptr);
 
       this->red_bitmask = read_le_uint32_from_file (fptr);
-      this->blue_bitmask = read_le_uint32_from_file (fptr);
       this->green_bitmask = read_le_uint32_from_file (fptr);
+      this->blue_bitmask = read_le_uint32_from_file (fptr);
       this->alpha_bitmask = read_le_uint32_from_file (fptr);
 
       this->color_space_type
@@ -57,7 +59,7 @@ BitmapV5Header::BitmapV5Header (std::ifstream &fptr)
       if (this->intent != GRAPHICS_INTENT)
         throw std::runtime_error (
             std::format ("BitmapV5Header constructor failed: Unable to handle "
-                         "{:04X} intent.",
+                         "{:08X} intent.",
                          this->intent));
 
       this->color_profile_data = read_le_uint32_from_file (fptr);
@@ -69,4 +71,29 @@ BitmapV5Header::BitmapV5Header (std::ifstream &fptr)
     {
       throw e;
     }
+}
+
+std::string
+BitmapV5Header::to_string (void) const
+{
+  return std::format (
+      "header size: {:08X}, img width: {:08X}, img height: {:08X}, # of color "
+      "planes: {:04X}, bpp: {:04X}, compression method: {:08X}, img size: "
+      "{:08X}, x ppm: {:08X}, y ppm: {:08X}, color table length: {:08X}, # of"
+      " important colors: {:08X}, r bitmask: {:08X}, g bitmask: {:08X}, b "
+      "bitmask: {:08X}, a bitmask: {:08X}, color space type: {}, r gamma: "
+      "{:08X}, g gamma: {:08X}, b gamma: {:08X}, intent: {:08X}, color profile"
+      " data: {:08X}, color profile size: {:08X}",
+      header_size, img_width, img_height, num_color_planes, bits_per_pixel,
+      compression_method, img_size, x_ppm, y_ppm, len_color_table,
+      num_important_colors, red_bitmask, green_bitmask, blue_bitmask,
+      alpha_bitmask, color_space_type, red_gamma, green_gamma, blue_gamma,
+      intent, color_profile_data, color_profile_size);
+}
+
+std::ostream &
+operator<< (std::ostream &os, const BitmapV5Header &h)
+{
+  os << std::format ("{{ {} }}", h.to_string ());
+  return os;
 }

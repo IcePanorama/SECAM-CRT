@@ -74,6 +74,7 @@ operator<< (std::ostream &os, const BitmapImage &img)
 std::string
 BitmapImage::to_string (void) const
 {
-  return std::format ("filename: {}, size: {:04X}, data_offset: {:04X}",
-                      filename, size, data_offset);
+  return std::format ("filename: {}, size: {:08X}, data_offset: {:08X}, DIB "
+                      "header: {{ {} }}",
+                      filename, size, data_offset, DIB_header->to_string ());
 }

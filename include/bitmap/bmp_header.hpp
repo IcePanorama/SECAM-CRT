@@ -41,6 +41,9 @@ public:
   uint32_t img_size; // size of the raw bitmap data
 
   BitmapV5Header (std::ifstream &fptr);
+
+  std::string to_string (void) const;
+  friend std::ostream &operator<< (std::ostream &os, const BitmapV5Header &h);
 };
 
 #endif /* _BITMAP_V5_HEADER_HPP_ */
