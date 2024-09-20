@@ -7,7 +7,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#define BITMAP_FILE_SIGNATURE (0x424D)
+#define BITMAP_FILE_SIGNATURE (0x4D42)
 
 BitmapImage::BitmapImage (const std::string &_filename) : filename (_filename)
 {
