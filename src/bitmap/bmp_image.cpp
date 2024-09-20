@@ -14,7 +14,7 @@ BitmapImage::BitmapImage (const std::string &_filename) : filename (_filename)
   std::ifstream file (this->filename, std::ios::binary);
   if (!file)
     {
-      std::cerr << std::format ("Error opening file, {:s}\n", this->filename);
+      std::cerr << std::format ("Error opening file, {}\n", this->filename);
     }
 
   try
@@ -25,13 +25,13 @@ BitmapImage::BitmapImage (const std::string &_filename) : filename (_filename)
     {
       throw std::runtime_error (
           std::format ("BitmapImage constructor failed: Could not seek to "
-                       "beginning of file, '{:s}'.",
+                       "beginning of file, '{}'.",
                        this->filename));
     }
 
   if (read_le_uint16_from_file (file) != BITMAP_FILE_SIGNATURE)
     throw std::runtime_error (std::format (
-        "BitmapImage constructor failed: File, `{:s}`, is not a bitmap image.",
+        "BitmapImage constructor failed: File, `{}`, is not a bitmap image.",
         this->filename));
 
   try
@@ -44,7 +44,7 @@ BitmapImage::BitmapImage (const std::string &_filename) : filename (_filename)
     {
       throw std::runtime_error (
           std::format ("BitmapImage constructor failed: Failed to read data "
-                       "from file, '{:s}'.",
+                       "from file, '{}'.",
                        this->filename));
     }
 }

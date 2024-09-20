@@ -5,19 +5,19 @@
 
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
 class BitmapImage
 {
-  uint32_t size;             // in bytes
-  uint32_t data_offset;      // offset from beg. of file to bmp data
-  BitmapV5Header DIB_header; // DIB = device-independent bitmap
+  const std::string filename;
+  uint32_t size;        // in bytes
+  uint32_t data_offset; // offset from beg. of file to bmp data
+  std::optional<BitmapV5Header> DIB_header; // DIB = device-independent bitmap
   std::unique_ptr<std::vector<uint8_t> > raw_data;
 
 public:
-  const std::string filename;
-
   BitmapImage (const std::string &_filename);
 
   std::string to_string (void) const;

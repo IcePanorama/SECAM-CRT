@@ -1,9 +1,12 @@
 #ifndef _BITMAP_V5_HEADER_HPP_
 #define _BITMAP_V5_HEADER_HPP_
 
-#include <array>
 #include <cstdint>
+#include <fstream>
 #include <string>
+#include <vector>
+
+static constexpr size_t COLOR_SPACE_ENDPOINTS_LEN = 36; // in bytes
 
 class BitmapV5Header
 {
@@ -22,8 +25,8 @@ class BitmapV5Header
   uint32_t green_bitmask;
   uint32_t blue_bitmask;
   uint32_t alpha_bitmask;
-  std::string color_space_type; // len of 4
-  std::array<uint8_t, 36> color_space_endpoints;
+  std::string color_space_type;
+  std::vector<uint8_t> color_space_endpoints;
   uint32_t red_gamma;
   uint32_t green_gamma;
   uint32_t blue_gamma;
@@ -32,8 +35,11 @@ class BitmapV5Header
    *    https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapv5header#members
    */
   uint32_t intent;
-  uint32_t icc_profile_data;
-  uint32_t icc_profile_size;
+  uint32_t color_profile_data;
+  uint32_t color_profile_size;
+
+public:
+  BitmapV5Header (std::ifstream &fptr);
 };
 
 #endif /* _BITMAP_V5_HEADER_HPP_ */
