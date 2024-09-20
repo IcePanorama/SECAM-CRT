@@ -1,27 +1,27 @@
-#include <cstdint>
-#include <format>
-#include <fstream>
+#include "bitmap/bmp_image.hpp"
+
 #include <iostream>
+#include <optional>
+#include <stdexcept>
 #include <string>
 
 int
 main (void)
 {
   const std::string FILENAME = "image.bmp";
-  std::ifstream file (FILENAME, std::ios::binary);
-  if (!file)
+  std::optional<BitmapImage> img;
+
+  try
     {
-      std::cerr << std::format ("Error opening file, %s\n", FILENAME);
+      img.emplace (FILENAME);
+    }
+  catch (const std::runtime_error &e)
+    {
+      std::cerr << e.what () << std::endl;
       return -1;
     }
 
-  for (int i = 0; i < 10; i++)
-    {
-      uint8_t byte = static_cast<uint8_t> (file.get ());
-      if (file.eof ())
-        std::cout << "End of file.\n";
-      std::cout << std::format ("{:02X}\n", byte);
-    }
+  std::cout << *img << std::endl;
 
   return 0;
 }
