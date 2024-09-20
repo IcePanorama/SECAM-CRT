@@ -16,7 +16,6 @@ class BitmapV5Header
   uint16_t num_color_planes;
   uint16_t bits_per_pixel;
   uint32_t compression_method;
-  uint32_t img_size;
   int32_t x_ppm; // x pixels per meter
   int32_t y_ppm; // y pixels per meter
   uint32_t len_color_table;
@@ -39,6 +38,8 @@ class BitmapV5Header
   uint32_t color_profile_size;
 
 public:
+  uint32_t img_size; // size of the raw bitmap data
+
   BitmapV5Header (std::ifstream &fptr);
 };
 

@@ -6,6 +6,7 @@
 
 static constexpr size_t COLOR_SPACE_TYPE_LEN = 4;
 static constexpr uint8_t GRAPHICS_INTENT = 0x2;
+static constexpr uint8_t UNCOMPRESSED_COMPRESSION_METHOD = 0x0;
 
 BitmapV5Header::BitmapV5Header (std::ifstream &fptr)
 {
@@ -20,13 +21,16 @@ BitmapV5Header::BitmapV5Header (std::ifstream &fptr)
       this->bits_per_pixel = read_le_uint16_from_file (fptr);
 
       this->compression_method = read_le_uint32_from_file (fptr);
-      if (this->compression_method != 0)
+      if (this->compression_method != UNCOMPRESSED_COMPRESSION_METHOD)
         throw std::runtime_error (
             std::format ("BitmapV5Header constructor failed: Unable to handle "
                          "{:04X} compression method.",
                          this->compression_method));
 
       this->img_size = read_le_uint32_from_file (fptr);
+      if (this->img_size == 0)
+        throw std::runtime_error ("BitmapV5Header constructor failed: Unable "
+                                  "to handle implicit image size.");
 
       this->x_ppm = read_le_int32_from_file (fptr);
       this->y_ppm = read_le_int32_from_file (fptr);
