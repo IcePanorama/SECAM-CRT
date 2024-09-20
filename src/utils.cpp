@@ -1,7 +1,6 @@
 #include "utils.hpp"
 
 #include <algorithm>
-#include <array>
 #include <cstdint>
 #include <stdexcept>
 #include <string>

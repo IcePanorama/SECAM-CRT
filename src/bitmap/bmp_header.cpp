@@ -10,6 +10,7 @@ static constexpr size_t COLOR_SPACE_TYPE_LEN = 4;
 static constexpr uint8_t GRAPHICS_INTENT = 0x2;
 static constexpr uint8_t UNCOMPRESSED_COMPRESSION_METHOD = 0x0;
 
+/** @see: https://commons.wikimedia.org/wiki/File:BMPfileFormat.svg */
 BitmapV5Header::BitmapV5Header (std::ifstream &fptr)
 {
   try

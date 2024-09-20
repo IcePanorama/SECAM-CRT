@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+/** @see: https://en.wikipedia.org/wiki/BMP_file_format#File_structure */
 class BitmapImage
 {
   const std::string filename;
