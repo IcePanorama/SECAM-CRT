@@ -2,6 +2,7 @@
 #define _BITMAP_IMAGE_HPP_
 
 #include "bitmap/bmp_header.hpp"
+#include "color.hpp"
 
 #include <cstdint>
 #include <memory>
@@ -17,7 +18,9 @@ class BitmapImage
   uint32_t data_offset; // offset from beg. of file to bmp data
   std::optional<BitmapV5Header> DIB_header; // DIB = device-independent bitmap
   std::unique_ptr<std::vector<uint8_t> > raw_data;
-  std::vector<std::vector<uint32_t> > pixel_data; // goes bottom row -> top
+  std::vector<std::vector<Color> > pixel_data; // goes bottom row -> top
+
+  void process_raw_data (void);
 
 public:
   BitmapImage (const std::string &_filename);

@@ -64,34 +64,7 @@ BitmapImage::BitmapImage (const std::string &_filename) : filename (_filename)
   this->raw_data = std::make_unique<std::vector<uint8_t> > (
       read_uint8_array_from_file (fptr, this->DIB_header->img_size));
 
-  std::vector<uint32_t> tmp;
-  for (size_t i = 0; i < this->DIB_header->img_size; i += 3)
-    {
-      tmp.push_back ((this->raw_data->at (i))
-                     | (this->raw_data->at (i + 1) << 8)
-                     | (this->raw_data->at (i + 2) << 16));
-
-      if (tmp.size () == static_cast<size_t> (this->DIB_header->img_width))
-        {
-          this->pixel_data.push_back (tmp);
-          tmp.clear ();
-        }
-    }
-
-  if (!tmp.empty ())
-    this->pixel_data.push_back (tmp);
-
-  for (auto row : this->pixel_data)
-    {
-      for (uint32_t pixel : row)
-        {
-          uint8_t r = (pixel & this->DIB_header->red_bitmask) >> 16;
-          uint8_t g = (pixel & this->DIB_header->green_bitmask) >> 8;
-          uint8_t b = (pixel & this->DIB_header->blue_bitmask);
-          std::cout << std::format ("({:02X}, {:02X}, {:02X}) ", r, g, b);
-        }
-      std::cout << std::endl;
-    }
+  this->process_raw_data ();
 }
 
 std::ostream &
@@ -108,4 +81,32 @@ BitmapImage::to_string (void) const
   return std::format ("filename: {}, size: {:08X}, data_offset: {:08X}, DIB "
                       "header: {{ {} }}",
                       filename, size, data_offset, DIB_header->to_string ());
+}
+
+void
+BitmapImage::process_raw_data (void)
+{
+  std::vector<Color> tmp;
+  for (size_t i = 0; i < this->DIB_header->img_size; i += 3)
+    {
+      uint32_t data = (this->raw_data->at (i))
+                      | (this->raw_data->at (i + 1) << 8)
+                      | (this->raw_data->at (i + 2) << 16);
+
+      uint8_t r = (data & this->DIB_header->red_bitmask) >> 16;
+      uint8_t g = (data & this->DIB_header->green_bitmask) >> 8;
+      uint8_t b = (data & this->DIB_header->blue_bitmask);
+
+      Color c (r, g, b);
+      tmp.push_back (c);
+
+      if (tmp.size () == static_cast<size_t> (this->DIB_header->img_width))
+        {
+          this->pixel_data.push_back (tmp);
+          tmp.clear ();
+        }
+    }
+
+  if (!tmp.empty ())
+    this->pixel_data.push_back (tmp);
 }
