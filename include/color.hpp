@@ -10,9 +10,9 @@ class Color {
 	double green;
 
 	/* From -1.333 to 1.333. See: https://en.wikipedia.org/wiki/YDbDr */
-	double luminance;
-	double red_color_difference;
-	double blue_color_difference;
+	double luminance;		// Y
+	double red_color_difference;	// Dr
+	double blue_color_difference;	// Db
 public:
 	Color (double r, double g, double b);
 
