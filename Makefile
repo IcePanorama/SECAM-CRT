@@ -15,6 +15,7 @@ INCL = include
 SRC_FILES = $(SRC)/main.cpp \
 	    $(SRC)/utils.cpp \
 	    $(SRC)/color.cpp \
+	    $(SRC)/signal.cpp \
 	    $(SRC)/bitmap/bmp_image.cpp \
 	    $(SRC)/bitmap/bmp_header.cpp
 INCL_FILES = $(INCL)/utils.hpp \
@@ -23,6 +24,7 @@ INCL_FILES = $(INCL)/utils.hpp \
 OBJ_FILES = $(SRC)/main.o \
 	    $(SRC)/utils.o \
 	    $(SRC)/color.o \
+	    $(SRC)/signal.o \
 	    $(SRC)/bitmap/bmp_image.o \
 	    $(SRC)/bitmap/bmp_header.o
 

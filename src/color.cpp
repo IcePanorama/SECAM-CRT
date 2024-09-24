@@ -5,7 +5,7 @@
 
 Color::Color (double r, double g, double b) : red (r), blue (b), green (g)
 {
-  //TODO: gamma correct rgb first!
+  // TODO: gamma correct rgb first!
   this->luminance
       = 0.299 * this->red + 0.587 * this->green + 0.114 * this->blue;
 
