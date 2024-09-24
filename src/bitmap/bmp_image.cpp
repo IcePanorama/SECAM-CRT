@@ -2,6 +2,8 @@
 #include "utils.hpp"
 
 #include <cassert>
+#include <cstddef>
+#include <cstdint>
 #include <format>
 #include <fstream>
 #include <iostream>
@@ -61,6 +63,35 @@ BitmapImage::BitmapImage (const std::string &_filename) : filename (_filename)
   fptr.seekg (this->data_offset, std::ios::beg);
   this->raw_data = std::make_unique<std::vector<uint8_t> > (
       read_uint8_array_from_file (fptr, this->DIB_header->img_size));
+
+  std::vector<uint32_t> tmp;
+  for (size_t i = 0; i < this->DIB_header->img_size; i += 3)
+    {
+      tmp.push_back ((this->raw_data->at (i))
+                     | (this->raw_data->at (i + 1) << 8)
+                     | (this->raw_data->at (i + 2) << 16));
+
+      if (tmp.size () == static_cast<size_t> (this->DIB_header->img_width))
+        {
+          this->pixel_data.push_back (tmp);
+          tmp.clear ();
+        }
+    }
+
+  if (!tmp.empty ())
+    this->pixel_data.push_back (tmp);
+
+  for (auto row : this->pixel_data)
+    {
+      for (uint32_t pixel : row)
+        {
+          uint8_t r = (pixel & this->DIB_header->red_bitmask) >> 16;
+          uint8_t g = (pixel & this->DIB_header->green_bitmask) >> 8;
+          uint8_t b = (pixel & this->DIB_header->blue_bitmask);
+          std::cout << std::format ("({:02X}, {:02X}, {:02X}) ", r, g, b);
+        }
+      std::cout << std::endl;
+    }
 }
 
 std::ostream &

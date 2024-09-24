@@ -17,6 +17,7 @@ class BitmapImage
   uint32_t data_offset; // offset from beg. of file to bmp data
   std::optional<BitmapV5Header> DIB_header; // DIB = device-independent bitmap
   std::unique_ptr<std::vector<uint8_t> > raw_data;
+  std::vector<std::vector<uint32_t> > pixel_data; // goes bottom row -> top
 
 public:
   BitmapImage (const std::string &_filename);
