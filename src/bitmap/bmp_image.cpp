@@ -93,9 +93,9 @@ BitmapImage::process_raw_data (void)
                       | (this->raw_data->at (i + 1) << 8)
                       | (this->raw_data->at (i + 2) << 16);
 
-      uint8_t r = (data & this->DIB_header->red_bitmask) >> 16;
-      uint8_t g = (data & this->DIB_header->green_bitmask) >> 8;
-      uint8_t b = (data & this->DIB_header->blue_bitmask);
+      double r = ((data & this->DIB_header->red_bitmask) >> 16) / 255.0;
+      double g = ((data & this->DIB_header->green_bitmask) >> 8) / 255.0;
+      double b = ((data & this->DIB_header->blue_bitmask)) / 255.0;
 
       Color c (r, g, b);
       tmp.push_back (c);
