@@ -19,6 +19,8 @@ SRC_FILES = $(SRC)/main.cpp \
 	    $(SRC)/bitmap/bmp_image.cpp \
 	    $(SRC)/bitmap/bmp_header.cpp
 INCL_FILES = $(INCL)/utils.hpp \
+	     $(INCL)/color.hpp \
+	     $(INCL)/signal.hpp \
 	     $(INCL)/bitmap/bmp_image.hpp \
 	     $(INCL)/bitmap/bmp_header.hpp
 OBJ_FILES = $(SRC)/main.o \
