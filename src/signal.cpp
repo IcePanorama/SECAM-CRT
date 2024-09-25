@@ -55,3 +55,14 @@ Signal::modulate_amplitude (double luma_value, size_t length)
       waveform.push_back (value);
     }
 }
+
+void
+Signal::combine (const Signal &s)
+{
+  // FIXME: should this throw a runtime error?
+  if (waveform.size () != s.waveform.size ())
+    return;
+
+  for (size_t i = 0; i < waveform.size (); i++)
+    waveform.at (i) += s.waveform.at (i);
+}

@@ -22,6 +22,8 @@ class Signal
                            size_t length);
   /** Modulates a signal. For Luma only. `carrier_frequency` is in Hertz. */
   void modulate_amplitude (double luma_value, size_t length);
+  /** Combine this signal with another. */
+  void combine (const Signal &s);
 };
 
 #endif /* _SIGNAL_HPP_ */
